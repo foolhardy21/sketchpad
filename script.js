@@ -1,24 +1,55 @@
 let container =  document.querySelector('.container')
-container.style.minWidth='80vw'
-container.style.minHeight='80vh'
-container.style.background = 'brown'
-container.style.display='grid'
-container.style.gridTemplateColumns = 'repeat(16,1fr)'
-container.style.gridTemplateRows = 'repeat(16,1fr)'
-container.style.columnGap = '2px'
-container.style.rowGap = '2px'
+let resetBtn = document.querySelector('.reset')
 
-for( let i = 0; i < 16; i++ ) {
-  for( let j = 0; j < 16; j++) {
-    let div = document.createElement('div')
-    div.id = `${i}${j}`
-    div.style.background = 'green'
-    // div.innerHTML = `<p> </p>`
-    container.appendChild(div)
+resetStyle(2)
+insertChildrenDiv(2)
+
+resetBtn.addEventListener('click',() => {
+  container.innerHTML = ''
+
+  let userInput = parseInt(window.prompt('How many rows/columns ?'))
+
+  if( !validateAns(userInput) ) {
+    window.alert('Maximum limit is 10')
+    userInput = 10
+  }
+
+  resetStyle(userInput)
+  insertChildrenDiv(userInput)
+
+})
+container.addEventListener('mouseover',(e) => {
+
+  let cell = e.target
+  cell.style.background = 'yellow'
+
+})
+
+function resetStyle(cells) {
+
+  container.style.width='960px'
+  container.style.height='560px'
+  container.style.background = 'yellow'
+  container.style.display='grid'
+  container.style.gridTemplateColumns = `repeat(${cells},1fr)`
+  container.style.gridTemplateRows = `repeat(${cells},1fr)`
+  container.style.columnGap = '2px'
+  container.style.rowGap = '2px'
+
+}
+function insertChildrenDiv(cells) {
+
+  for( let i = 0; i < cells; i++ ) {
+    for( let j = 0; j < cells; j++) {
+
+      let div = document.createElement('div')
+      div.id = `${i}${j}`
+      div.style.background = 'green'
+      container.appendChild(div)
+
+    }
   }
 }
-container.addEventListener('mouseover',(e) => {
-  let cell = e.target
-  //console.log(cell)
-  cell.style.background = 'brown'
-})
+function validateAns(answer) {
+  return (answer > 10 || !answer) ? false : true
+}
